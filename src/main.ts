@@ -10,17 +10,28 @@ declare global {
         iuActiveModal: HTMLElement | null;
         iuSimpleModalInitialized: true | null;
     }
+    interface Window {
+        setupSimpleModal: typeof setupSimpleModal;
+    }
 }
 
 // Check all action buttons for Data Modal
-(() => {
+const setupSimpleModal = (inputOptions?: Options) => {
+    // Exit early if we're already initialized
     if (document.iuSimpleModalInitialized === true) return;
-    document.iuSimpleModalInitialized = true;
-    document.iuSimpleModalInitialized = true;
-    const options: Options = {
-        prefix: ["iu", ""],
-        opentargets: ["[data-iu-modal]", "mm-modal"],
+
+    const baseOptions: Options = {
+        prefix: ["iu"],
+        opentargets: ["[data-iu-modal]"],
     };
+
+    const options: Options = {
+        ...baseOptions,
+        ...inputOptions,
+    };
+
+    document.iuSimpleModalInitialized = true;
+    document.iuSimpleModalInitialized = true;
 
     const getPrefix = (
         target: string,
@@ -68,7 +79,6 @@ declare global {
     };
 
     const handleCloseModalClick = (e: Event) => {
-        console.log(e);
         if (
             e.target === document["iuActiveModal"] &&
             document.iuActiveModal !== null
@@ -115,4 +125,13 @@ declare global {
     selectElements(selectors).forEach((el) => {
         el.addEventListener("click", handleClick);
     });
-})();
+};
+
+if (import.meta.env.DEV) {
+    setupSimpleModal({
+        opentargets: "mm-modal",
+        prefix: "",
+    });
+} else {
+    window.setupSimpleModal = setupSimpleModal;
+}

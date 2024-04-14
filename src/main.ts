@@ -127,7 +127,7 @@ const setupSimpleModal = (inputOptions?: Options) => {
     });
 };
 
-if (false) {
+if (import.meta.env.DEV) {
     setupSimpleModal({
         opentargets: "mm-modal",
         prefix: "",

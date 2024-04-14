@@ -30,8 +30,7 @@ jobs:
               with:
                   draft: false
                   tag_name: Release ${{ github.run_number }}
-                  generate_release_notes: true
-                  body_path: .github/misc/notes.tmpl
+                  generate_release_notes: false
                   files: |
                       dist/index.js
 
